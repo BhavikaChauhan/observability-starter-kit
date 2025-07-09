@@ -1,0 +1,2 @@
+cd services/user-service
+go mod tidy

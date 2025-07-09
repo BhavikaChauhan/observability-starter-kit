@@ -1,0 +1,8 @@
+# Ignore Go build files
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+vendor/
