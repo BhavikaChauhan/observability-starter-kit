@@ -12,5 +12,5 @@ func main() {
     })
 
     log.Println("Starting User Service on port 8000...")
-    log.Fatal(http.ListenAndServe(":8000", nil))
+    http.ListenAndServe("0.0.0.0:8000", nil) // This is the important change
 }
