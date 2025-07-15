@@ -1,0 +1,6 @@
+// +build !telemetry
+package main
+
+func InitTelemetry() func() {
+  return func() {}
+}

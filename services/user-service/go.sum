@@ -1,2 +1,1 @@
-cd services/user-service
-go mod tidy
+// (auto-populated by 'go mod tidy')
