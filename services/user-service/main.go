@@ -8,9 +8,9 @@ import (
 )
 
 func main() {
-    cleanup := InitTelemetry()
-    defer cleanup()
-    tracer := otel.Tracer("user-service")
+  //cleanup := InitTelemetry()
+  //defer cleanup()
+  // tracer := otel.Tracer("user-service")
 
     http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
         fmt.Fprintf(w, "User Service is healthy!")
