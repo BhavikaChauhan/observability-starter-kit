@@ -1,7 +1,11 @@
-import React from 'react';
+const express = require('express');
+const app = express();
+const PORT = 8000;
 
-function App() {
-  return <h1>Order Service is healthy!</h1>;
-}
+app.get('/health', (req, res) => {
+  res.send('Order Service is healthy!');
+});
 
-export default App;
+app.listen(PORT, () => {
+  console.log(`Order Service running on port ${PORT}`);
+});
