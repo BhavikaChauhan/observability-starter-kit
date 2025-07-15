@@ -4,7 +4,7 @@ import (
     "fmt"
     "log"
     "net/http"
-    "go.opentelemetry.io/otel"
+   // "go.opentelemetry.io/otel"
 )
 
 func main() {
