@@ -8,7 +8,6 @@ import (
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
 	"go.opentelemetry.io/otel/sdk/resource"
 	"go.opentelemetry.io/otel/semconv/v1.4.0"
-	"go.opentelemetry.io/otel/sdk"
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"context"
 )
