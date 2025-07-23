@@ -1,51 +1,62 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.bhavika</groupId>
     <artifactId>payment-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>payment-service</name>
-    <description>Payment microservice with OpenTelemetry</description>
 
-    <!-- ✅ Spring Boot parent to handle version management -->
+    <name>payment-service</name>
+    <description>Payment microservice with OpenTelemetry tracing</description>
+
+    <!-- ✅ Spring Boot Parent BOM -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.0</version>
+        <version>3.2.4</version> <!-- Match with your other microservices -->
         <relativePath/>
     </parent>
 
+    <!-- ✅ Properties -->
     <properties>
         <java.version>17</java.version>
-        <otel.version>1.33.0</otel.version>
+        <otel.version>1.32.0</otel.version> <!-- ✅ Use latest STABLE version -->
+        <otel.instrumentation.version>1.32.0</otel.instrumentation.version>
     </properties>
 
+    <!-- ✅ Repositories -->
+    <repositories>
+        <repository>
+            <id>sonatype</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+    </repositories>
+
+    <!-- ✅ Dependencies -->
     <dependencies>
-        <!-- Spring Boot Web -->
+        <!-- Spring Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- OpenTelemetry Spring Boot autoconfig -->
+        <!-- OpenTelemetry Spring Boot Starter -->
         <dependency>
             <groupId>io.opentelemetry.instrumentation</groupId>
-            <artifactId>opentelemetry-spring-boot-autoconfigure</artifactId>
-            <version>${otel.version}</version>
+            <artifactId>opentelemetry-spring-boot-starter</artifactId>
+            <version>${otel.instrumentation.version}</version>
         </dependency>
 
-        <!-- Optional: Exporter (OTLP) -->
+        <!-- OpenTelemetry OTLP Exporter -->
         <dependency>
             <groupId>io.opentelemetry.exporter</groupId>
             <artifactId>opentelemetry-exporter-otlp</artifactId>
             <version>${otel.version}</version>
         </dependency>
 
-        <!-- Spring Boot Test -->
+        <!-- Testing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -53,20 +64,12 @@
         </dependency>
     </dependencies>
 
+    <!-- ✅ Build Plugin -->
     <build>
         <plugins>
-            <!-- Spring Boot Maven Plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>3.2.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
