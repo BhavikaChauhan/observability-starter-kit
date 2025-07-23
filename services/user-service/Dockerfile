@@ -1,14 +1,11 @@
-# Build stage
-FROM golang:1.22-alpine AS builder
-WORKDIR /app
-COPY go.mod go.sum ./
-RUN go mod download
-COPY . .
-RUN go build -o user-service
+FROM golang:1.20-alpine
 
-# Run stage
-FROM alpine:latest
 WORKDIR /app
-COPY --from=builder /app/user-service .
-EXPOSE 8080
+
+COPY . .
+
+RUN go build -o user-service main.go
+
+EXPOSE 8001
+
 CMD ["./user-service"]
