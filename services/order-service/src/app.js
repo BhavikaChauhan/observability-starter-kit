@@ -2,8 +2,9 @@ import React from 'react';
 
 function App() {
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>Order Service is healthy!</h1>
+    <div>
+      <h1>Order Service</h1>
+      <p>This is the frontend for Order Management.</p>
     </div>
   );
 }
