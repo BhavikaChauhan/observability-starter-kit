@@ -1,39 +1,65 @@
-<properties>
-    <otel.version>1.32.0</otel.version>
-</properties>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-<dependencies>
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.bhavika</groupId>
+  <artifactId>payment-service</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+
+  <name>payment-service</name>
+
+  <properties>
+    <java.version>17</java.version>
+    <otel.version>1.32.0</otel.version>
+  </properties>
+
+  <dependencies>
     <!-- Spring Boot -->
     <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <!-- OpenTelemetry Core API -->
+    <dependency>
+      <groupId>io.opentelemetry</groupId>
+      <artifactId>opentelemetry-api</artifactId>
+      <version>${otel.version}</version>
+    </dependency>
+
+    <!-- OpenTelemetry SDK -->
+    <dependency>
+      <groupId>io.opentelemetry</groupId>
+      <artifactId>opentelemetry-sdk</artifactId>
+      <version>${otel.version}</version>
+    </dependency>
+
+    <!-- OTLP Exporter -->
+    <dependency>
+      <groupId>io.opentelemetry.exporter</groupId>
+      <artifactId>opentelemetry-exporter-otlp</artifactId>
+      <version>${otel.version}</version>
+    </dependency>
+
+    <!-- Spring Boot Test -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
         <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 
-    <!-- ✅ OpenTelemetry SDK -->
-    <dependency>
-        <groupId>io.opentelemetry</groupId>
-        <artifactId>opentelemetry-sdk</artifactId>
-        <version>${otel.version}</version>
-    </dependency>
-
-    <!-- ✅ OTLP Exporter -->
-    <dependency>
-        <groupId>io.opentelemetry.exporter</groupId>
-        <artifactId>opentelemetry-exporter-otlp</artifactId>
-        <version>${otel.version}</version>
-    </dependency>
-
-    <!-- ✅ OpenTelemetry API -->
-    <dependency>
-        <groupId>io.opentelemetry</groupId>
-        <artifactId>opentelemetry-api</artifactId>
-        <version>${otel.version}</version>
-    </dependency>
-
-    <!-- ✅ Spring Boot Test -->
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-test</artifactId>
-        <scope>test</scope>
-    </dependency>
-</dependencies>
+</project>
