@@ -48,7 +48,6 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
 
 
@@ -60,29 +59,3 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> c967711 (fix: updated pom.xml to include versions and resolve build issues)
