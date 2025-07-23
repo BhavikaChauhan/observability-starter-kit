@@ -2,7 +2,7 @@ FROM eclipse-temurin:17-jdk-alpine
 
 WORKDIR /app
 
-COPY services/payment-service/target/payment-service-1.0.0.jar app.jar
+COPY target/payment-service-1.0.0.jar app.jar
 
 EXPOSE 8081
 
