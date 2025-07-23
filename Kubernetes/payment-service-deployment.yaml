@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: payment-service
+  labels:
+    app: payment-service
 spec:
   replicas: 1
   selector:
@@ -14,30 +16,13 @@ spec:
     spec:
       containers:
         - name: payment-service
-          image: bhavika802/payment-service:latest
+          image: bhavika802/payment-service:otel
           ports:
-            - containerPort: 8083
+            - containerPort: 8081
           env:
-            - name: ENABLE_OTEL
-              value: "true"
+            - name: OTEL_SERVICE_NAME
+              value: "payment-service"
             - name: OTEL_EXPORTER_OTLP_ENDPOINT
               value: "http://otel-collector:4317"
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 8083
-            initialDelaySeconds: 5
-            periodSeconds: 10
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 8083
-            initialDelaySeconds: 10
-            periodSeconds: 20
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
-            limits:
-              cpu: "250m"
-              memory: "256Mi"
+            - name: OTEL_METRICS_EXPORTER
+              value: "none"
