@@ -1,24 +1,18 @@
-// server.js
-
 const express = require('express');
 const path = require('path');
-
 const app = express();
-const PORT = 8000;
+const PORT = process.env.PORT || 3003;
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, '../public')));
 
-// Health route
-app.get('/health', (req, res) => {
-  res.send('Order Service is healthy!');
-});
+// Health check
+app.get('/health', (req, res) => res.send('Order service is healthy'));
 
-// All other routes → serve React index.html
+// All other routes → index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  res.sendFile(path.resolve(__dirname, '../public', 'index.html'));
 });
 
 app.listen(PORT, () => {
-  console.log(`Order Service running at http://localhost:${PORT}`);
+  console.log(`Order service running on port ${PORT}`);
 });

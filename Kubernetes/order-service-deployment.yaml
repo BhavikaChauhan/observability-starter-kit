@@ -13,31 +13,20 @@ spec:
         app: order-service
     spec:
       containers:
-        - name: order-service
-          image: bhavika802/order-service:latest
+        - name: order-container
+          image: bhavika802/order-service:latest  # Replace after docker push
           ports:
-            - containerPort: 8082
-          env:
-            - name: ENABLE_OTEL
-              value: "true"
-            - name: OTEL_EXPORTER_OTLP_ENDPOINT
-              value: "http://otel-collector:4317"
+            - containerPort: 3003
           readinessProbe:
             httpGet:
               path: /health
-              port: 8082
+              port: 3003
             initialDelaySeconds: 5
             periodSeconds: 10
           livenessProbe:
             httpGet:
               path: /health
-              port: 8082
-            initialDelaySeconds: 10
+              port: 3003
+            initialDelaySeconds: 15
             periodSeconds: 20
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
-            limits:
-              cpu: "250m"
-              memory: "256Mi"
+

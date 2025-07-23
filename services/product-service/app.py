@@ -1,14 +1,16 @@
 from flask import Flask
-from telemetry import init_telemetry, tracer
+import os
 
 app = Flask(__name__)
-init_telemetry()
-tr = tracer()
 
-@app.route('/health')
+@app.route("/health")
 def health():
-    with tr.start_as_current_span('health-span'):
-        return 'Product Service is healthy!'
+    return "Product service is healthy!", 200
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000)
+@app.route("/product")
+def product():
+    return {"message": "Hello from product-service"}, 200
+
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", 8002))
+    app.run(host="0.0.0.0", port=port)

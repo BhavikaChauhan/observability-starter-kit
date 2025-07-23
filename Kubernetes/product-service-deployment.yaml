@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: product-service
+  labels:
+    app: product-service
 spec:
   replicas: 1
   selector:
@@ -14,30 +16,9 @@ spec:
     spec:
       containers:
         - name: product-service
-          image: bhavika802/product-service:latest
+          image: bhavika802/product-service:otel
           ports:
-            - containerPort: 8081
+            - containerPort: 8002
           env:
-            - name: ENABLE_OTEL
-              value: "true"
-            - name: OTEL_EXPORTER_OTLP_ENDPOINT
-              value: "http://otel-collector:4317"
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 8081
-            initialDelaySeconds: 5
-            periodSeconds: 10
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 8081
-            initialDelaySeconds: 10
-            periodSeconds: 20
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
-            limits:
-              cpu: "250m"
-              memory: "256Mi"
+            - name: PORT
+              value: "8002"

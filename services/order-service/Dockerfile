@@ -1,22 +1,16 @@
-# Stage 1: Build React app
-FROM node:18-alpine as builder
+# Base Node image
+FROM node:18-alpine
+
+# Set working dir
 WORKDIR /app
+
+# Copy files
 COPY package*.json ./
 RUN npm install
+
 COPY . .
-RUN npm run build
 
-# Stage 2: Serve via Express
-FROM node:18-alpine
-WORKDIR /app
+# Expose port
+EXPOSE 3003
 
-# Install only runtime dependencies
-COPY package*.json ./
-RUN npm install --only=prod
-
-# Copy built frontend
-COPY --from=builder /app/build ./build
-COPY server.js .
-
-EXPOSE 8000
-CMD ["node", "server.js"]
+CMD ["npm", "start"]
