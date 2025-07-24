@@ -1,12 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: payment-service
+  name: product-service
 spec:
   selector:
-    app: payment-service
+    app: product-service
   ports:
     - protocol: TCP
-      port: 8081
-      targetPort: 8081
-  type: ClusterIP
+      port: 80
+      targetPort: 3002
