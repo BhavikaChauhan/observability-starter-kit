@@ -2,15 +2,15 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy package files and install dependencies
+# Install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy everything else including the src folder
+# Copy the entire service folder into the image
 COPY . .
 
-# Set working directory to src
+# Tell Docker to use the src folder as working directory
 WORKDIR /app/src
 
-# Start the application
+# Set the correct entry point
 CMD ["node", "index.js"]
