@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: order-container
-          image: bhavika802/order-service:latest  # Replace after docker push
+          image: bhavika802/order-service:latest  # Replace with your actual image tag if different
           ports:
             - containerPort: 3003
           readinessProbe:
@@ -29,4 +29,3 @@ spec:
               port: 3003
             initialDelaySeconds: 15
             periodSeconds: 20
-
