@@ -14,18 +14,18 @@ spec:
     spec:
       containers:
         - name: order-container
-          image: bhavika802/order-service:latest  # Replace with your actual image tag if different
+          image: bhavika802/order-service:latest
           ports:
-            - containerPort: 3003
+            - containerPort: 8000
           readinessProbe:
             httpGet:
               path: /health
-              port: 3003
+              port: 8000
             initialDelaySeconds: 5
             periodSeconds: 10
           livenessProbe:
             httpGet:
               path: /health
-              port: 3003
+              port: 8000
             initialDelaySeconds: 15
             periodSeconds: 20
