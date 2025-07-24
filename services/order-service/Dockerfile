@@ -1,18 +1,16 @@
-# Use official Node.js LTS image
-FROM node:18
+FROM node:20-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Copy package.json and install dependencies
-COPY package.json ./
+# Copy package files and install dependencies
+COPY package*.json ./
 RUN npm install
 
-# Copy rest of the app
+# Copy everything else including the src folder
 COPY . .
 
-# Expose port (ensure it matches your app's listen port)
-EXPOSE 3003
+# Set working directory to src
+WORKDIR /app/src
 
-# Start the app
-CMD ["npm", "start"]
+# Start the application
+CMD ["node", "index.js"]
