@@ -1,6 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './app';
+const express = require("express");
+const app = express();
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+app.get("/", (req, res) => {
+  res.send("Order Service Working!");
+});
+
+app.listen(3003, () => {
+  console.log("Order service running on port 3003");
+});
