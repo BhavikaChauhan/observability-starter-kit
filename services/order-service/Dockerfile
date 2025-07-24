@@ -1,16 +1,11 @@
-# Base Node image
-FROM node:18-alpine
+FROM node:20-alpine
 
-# Set working dir
 WORKDIR /app
 
-# Copy files
 COPY package*.json ./
 RUN npm install
 
 COPY . .
 
-# Expose port
-EXPOSE 3003
-
+EXPOSE 5002
 CMD ["npm", "start"]

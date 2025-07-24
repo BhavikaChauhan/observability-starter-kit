@@ -13,19 +13,12 @@ spec:
         app: order-service
     spec:
       containers:
-        - name: order-container
-          image: bhavika802/order-service:latest
+        - name: order-service
+          image: bhavika802/order-service:otel
           ports:
-            - containerPort: 8000
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 8000
-            initialDelaySeconds: 5
-            periodSeconds: 10
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 8000
-            initialDelaySeconds: 15
-            periodSeconds: 20
+            - containerPort: 5002
+          env:
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://tempo:4318"
+            - name: OTEL_SERVICE_NAME
+              value: "order-service"

@@ -1,12 +1,11 @@
-import React from 'react';
+const express = require("express");
+require("./telemetry"); // Telemetry init
+const app = express();
 
-function App() {
-  return (
-    <div>
-      <h1>Order Service</h1>
-      <p>This is the frontend for Order Management.</p>
-    </div>
-  );
-}
+app.get("/order", (req, res) => {
+  res.send("Order service called");
+});
 
-export default App;
+app.listen(5002, () => {
+  console.log("Order service running on port 5002");
+});
