@@ -1,16 +1,18 @@
-FROM node:20-alpine
+# Use official Node.js image
+FROM node:20
 
+# Set working directory
 WORKDIR /app
 
-# Install dependencies
+# Copy package.json and install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy the entire service folder into the image
+# Copy all app files
 COPY . .
 
-# Tell Docker to use the src folder as working directory
+# Set working directory to src so index.js is found
 WORKDIR /app/src
 
-# Set the correct entry point
-CMD ["node", "index.js"]
+# Start the app
+CMD [ "node", "index.js" ]
