@@ -4,24 +4,19 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
+	"user-service/telemetry"
 )
 
-func main() {
-	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("User service is healthy!"))
-	})
-
-	http.HandleFunc("/user", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("This is the User service"))
-	})
-
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8001"
-	}
-
-	fmt.Printf("User service running on port %s\n", port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "User Service is live!")
 }
+
+func main() {
+	shutdown := telemetry.InitProvider()
+	defer shutdown()
+
+	http.HandleFunc("/", handler)
+	log.Println("Starting User Service on port 3001...")
+	log.Fatal(http.ListenAndServe(":3001", nil))
+}
+
