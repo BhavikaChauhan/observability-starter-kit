@@ -1,52 +1,63 @@
 package main
 
 import (
-	"context"
-	"fmt"
-	"log"
-	"net/http"
+    "context"
+    "log"
+    "net/http"
 
-	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
-	"go.opentelemetry.io/otel"
-	"go.opentelemetry.io/otel/sdk/resource"
-	sdktrace "go.opentelemetry.io/otel/sdk/trace"
-	"go.opentelemetry.io/otel/trace"
-	"go.opentelemetry.io/otel/sdk/trace/tracerprovider"
-	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
+    "github.com/gin-gonic/gin"
+    "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
+    "go.opentelemetry.io/otel"
+    "go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
+    "go.opentelemetry.io/otel/sdk/resource"
+    sdktrace "go.opentelemetry.io/otel/sdk/trace"
+    semconv "go.opentelemetry.io/otel/semconv/v1.21.0"
 )
 
-func initTracer() func(context.Context) error {
-	ctx := context.Background()
+func initTracer(ctx context.Context) (*sdktrace.TracerProvider, error) {
+    exporter, err := otlptracehttp.New(ctx)
+    if err != nil {
+        return nil, err
+    }
 
-	exporter, err := otlptracehttp.New(ctx)
-	if err != nil {
-		log.Fatalf("failed to create exporter: %v", err)
-	}
+    res, err := resource.New(ctx,
+        resource.WithAttributes(
+            semconv.ServiceNameKey.String("user-service"),
+        ),
+    )
+    if err != nil {
+        return nil, err
+    }
 
-	tp := sdktrace.NewTracerProvider(
-		sdktrace.WithBatcher(exporter),
-		sdktrace.WithResource(resource.Default()),
-	)
-	otel.SetTracerProvider(tp)
-
-	return tp.Shutdown
+    tp := sdktrace.NewTracerProvider(
+        sdktrace.WithBatcher(exporter),
+        sdktrace.WithResource(res),
+    )
+    otel.SetTracerProvider(tp)
+    return tp, nil
 }
 
 func main() {
-	shutdown := initTracer()
-	defer shutdown(context.Background())
+    ctx := context.Background()
 
-	tracer := otel.Tracer("user-service")
+    tp, err := initTracer(ctx)
+    if err != nil {
+        log.Fatalf("failed to initialize tracer: %v", err)
+    }
+    defer func() {
+        _ = tp.Shutdown(ctx)
+    }()
 
-	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		ctx, span := tracer.Start(r.Context(), "handle-request")
-		defer span.End()
+    r := gin.Default()
+    r.Use(otelgin.Middleware("user-service"))
 
-		fmt.Fprintf(w, "Hello from user-service! 🎉")
-		log.Println("Request handled")
-		_ = ctx
-	})
+    r.GET("/health", func(c *gin.Context) {
+        c.JSON(http.StatusOK, gin.H{"status": "ok"})
+    })
 
-	log.Println("User Service running on port 8001...")
-	log.Fatal(http.ListenAndServe(":8001", otelhttp.NewHandler(handler, "root")))
+    r.GET("/users", func(c *gin.Context) {
+        c.JSON(http.StatusOK, gin.H{"users": []string{"Alice", "Bob"}})
+    })
+
+    r.Run(":8080")
 }
