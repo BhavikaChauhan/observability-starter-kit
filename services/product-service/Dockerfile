@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.10-slim
 
 WORKDIR /app
 
@@ -7,10 +7,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Install auto-instrumentation tool
-RUN pip install opentelemetry-distro
+EXPOSE 5000
 
-EXPOSE 3002
-
-# Entry point with OpenTelemetry instrumentation
-CMD ["opentelemetry-instrument", "python", "app.py"]
+CMD ["python", "app.py"]
