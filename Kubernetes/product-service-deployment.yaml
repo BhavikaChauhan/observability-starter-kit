@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: product-service
+  labels:
+    app: product-service
 spec:
   replicas: 1
   selector:
@@ -16,4 +18,9 @@ spec:
         - name: product-service
           image: bhavika802/product-service:otel
           ports:
-            - containerPort: 3002
+            - containerPort: 5000
+          env:
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://tempo:4318"
+            - name: OTEL_SERVICE_NAME
+              value: "product-service"

@@ -1,16 +1,13 @@
-from flask import Flask
-import os
+from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-@app.route("/health")
-def health():
-    return "Product service is healthy!", 200
-
-@app.route("/product")
-def product():
-    return {"message": "Hello from product-service"}, 200
+@app.route("/products")
+def get_products():
+    return jsonify([
+        {"id": 1, "name": "Laptop"},
+        {"id": 2, "name": "Smartphone"}
+    ])
 
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", 8002))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=3002)

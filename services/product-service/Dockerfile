@@ -1,13 +1,16 @@
-FROM python:3.10-slim
+FROM python:3.11-slim
 
 WORKDIR /app
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install opentelemetry-distro opentelemetry-exporter-otlp opentelemetry-instrumentation-flask
 
 COPY . .
 
+# Install auto-instrumentation tool
+RUN pip install opentelemetry-distro
+
 EXPOSE 3002
 
+# Entry point with OpenTelemetry instrumentation
 CMD ["opentelemetry-instrument", "python", "app.py"]
