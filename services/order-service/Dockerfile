@@ -1,18 +1,21 @@
 # Use official Node.js image
 FROM node:20
 
-# Set working directory
+# Create app directory
 WORKDIR /app
 
 # Copy package.json and install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy all app files
+# Copy the rest of the code
 COPY . .
 
-# Set working directory to src so index.js is found
+# Set the working directory to the actual source
 WORKDIR /app/src
 
-# Start the app
-CMD [ "node", "index.js" ]
+# Expose port (update if needed)
+EXPOSE 3003
+
+# Start the service
+CMD ["node", "index.js"]
