@@ -14,11 +14,6 @@ spec:
     spec:
       containers:
         - name: order-service
-          image: bhavika802/order-service:otel
+          image: bhavika802/order-service:otel  # your Docker Hub image
           ports:
-            - containerPort: 5002
-          env:
-            - name: OTEL_EXPORTER_OTLP_ENDPOINT
-              value: "http://tempo:4318"
-            - name: OTEL_SERVICE_NAME
-              value: "order-service"
+            - containerPort: 3003
