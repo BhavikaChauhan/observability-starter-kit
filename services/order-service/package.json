@@ -1,12 +1,24 @@
 {
   "name": "order-service",
   "version": "1.0.0",
-  "main": "server.js",
+  "description": "Order microservice with OpenTelemetry instrumentation",
+  "main": "main.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node main.js",
+    "dev": "nodemon main.js"
   },
   "dependencies": {
     "express": "^4.18.2",
-    "opentelemetry": "^1.21.0"
+    "@opentelemetry/api": "^1.6.1",
+    "@opentelemetry/sdk-node": "^0.48.0",
+    "@opentelemetry/instrumentation": "^0.48.0",
+    "@opentelemetry/instrumentation-express": "^0.48.0",
+    "@opentelemetry/instrumentation-http": "^0.48.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.48.0",
+    "@opentelemetry/exporter-otlp-http": "^0.48.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
   }
 }
