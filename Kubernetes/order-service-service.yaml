@@ -7,5 +7,6 @@ spec:
     app: order-service
   ports:
     - protocol: TCP
-      port: 3003
+      port: 80
       targetPort: 3003
+  type: ClusterIP

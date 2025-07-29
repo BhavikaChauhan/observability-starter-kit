@@ -20,9 +20,7 @@ spec:
           ports:
             - containerPort: 8081
           env:
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://otel-collector:4318"
             - name: OTEL_SERVICE_NAME
               value: "payment-service"
-            - name: OTEL_EXPORTER_OTLP_ENDPOINT
-              value: "http://otel-collector:4317"
-            - name: OTEL_METRICS_EXPORTER
-              value: "none"

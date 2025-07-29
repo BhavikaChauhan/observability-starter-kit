@@ -19,6 +19,6 @@ spec:
             - containerPort: 5000
           env:
             - name: OTEL_EXPORTER_OTLP_ENDPOINT
-              value: "http://tempo:4318"
+              value: "http://otel-collector:4318"
             - name: OTEL_SERVICE_NAME
               value: "product-service"
