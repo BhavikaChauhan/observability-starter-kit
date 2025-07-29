@@ -1,14 +1,11 @@
 const express = require("express");
-require("./telemetry"); // Telemetry init
+require("./src/telemetry");
+const app = require("./src/app");
 
-const app = express();
+const server = express();
 
-app.get("/order", (req, res) => {
-  res.send("Order service called");
-});
+server.use(app);
 
-const PORT = process.env.PORT || 3003;
-
-app.listen(PORT, () => {
-  console.log(`🚀 Order service running on port ${PORT}`);
+server.listen(3002, () => {
+  console.log("Order service listening on port 3002");
 });
