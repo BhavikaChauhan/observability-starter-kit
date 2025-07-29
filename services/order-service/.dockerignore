@@ -1,0 +1,11 @@
+node_modules
+build
+.dockerignore
+Dockerfile
+.git
+.gitignore
+.env
+*.log
+npm-debug.log
+yarn-error.log
+.vscode
