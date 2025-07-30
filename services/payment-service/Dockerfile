@@ -1,13 +1,12 @@
-FROM eclipse-temurin:17-jdk
+FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-# Copy Java app and agent
-COPY target/*.jar app.jar
-COPY docker/opentelemetry-javaagent.jar .
+# Copy your application JAR
+COPY target/payment-service-0.0.1-SNAPSHOT.jar app.jar
 
-# Add agent
-ENV JAVA_TOOL_OPTIONS="-javaagent:/app/opentelemetry-javaagent.jar"
+# Copy the OpenTelemetry agent JAR
+COPY opentelemetry-javaagent.jar opentelemetry-javaagent.jar
 
-EXPOSE 3001
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Run the app with the agent
+ENTRYPOINT ["java", "-javaagent:opentelemetry-javaagent.jar", "-jar", "app.jar"]
