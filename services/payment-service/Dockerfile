@@ -2,11 +2,14 @@ FROM eclipse-temurin:17-jdk-alpine
 
 WORKDIR /app
 
-# Copy your compiled Spring Boot JAR
+# Copy your built JAR (make sure it matches actual file name)
 COPY target/payment-service-1.0.0.jar app.jar
 
-# Download the OpenTelemetry Java agent JAR directly into the image
-ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar
+# Download the stable OpenTelemetry agent at build time
+ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar opentelemetry-javaagent.jar
 
-# Set the entrypoint to use the OTEL agent
+# Expose your application's port
+EXPOSE 3001
+
+# Use the agent when running
 ENTRYPOINT ["java", "-javaagent:opentelemetry-javaagent.jar", "-jar", "app.jar"]
