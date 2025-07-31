@@ -1,2 +1,2 @@
-// Placeholder for frontend OpenTelemetry config
-console.log("Telemetry initialized (mock)");
+// Basic stub — enhance later with OTEL frontend SDK
+console.log("OpenTelemetry initialized in frontend.");

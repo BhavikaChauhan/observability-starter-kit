@@ -1,5 +1,5 @@
-# Stage 1: Build React app
-FROM node:18-alpine as build
+# Stage 1: Build React App
+FROM node:18-alpine AS build
 
 WORKDIR /app
 
@@ -16,10 +16,11 @@ FROM node:18-alpine
 WORKDIR /app
 
 COPY --from=build /app/build ./build
-COPY server.js ./
+COPY server.js .
 COPY package.json ./
-RUN npm install --only=prod
+COPY package-lock.json ./
 
-EXPOSE 3002
+RUN npm install --only=production
 
+EXPOSE 3000
 CMD ["node", "server.js"]

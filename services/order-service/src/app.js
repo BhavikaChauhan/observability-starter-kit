@@ -1,12 +1,10 @@
 import React from "react";
+import ReactDOM from "react-dom/client";
+import "./telemetry";
 
-const App = () => {
-  return (
-    <div>
-      <h1>Order Service</h1>
-      <p>This is the Order service frontend built with React.</p>
-    </div>
-  );
-};
+function App() {
+  return <h1>Order Service React App (OTEL Instrumented)</h1>;
+}
 
-export default App;
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
