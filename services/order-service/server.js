@@ -1,11 +1,15 @@
 const express = require("express");
-require("./src/telemetry");
-const app = require("./src/app");
+const path = require("path");
 
-const server = express();
+const app = express();
+const PORT = process.env.PORT || 3002;
 
-server.use(app);
+app.use(express.static(path.join(__dirname, "build")));
 
-server.listen(3002, () => {
-  console.log("Order service listening on port 3002");
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
+app.listen(PORT, () => {
+  console.log(`Order service frontend running on http://localhost:${PORT}`);
 });

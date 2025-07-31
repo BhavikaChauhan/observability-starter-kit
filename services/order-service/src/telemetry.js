@@ -1,7 +1,2 @@
-const opentelemetry = require("@opentelemetry/sdk-node");
-
-const sdk = new opentelemetry.NodeSDK({
-  serviceName: "order-service"
-});
-
-sdk.start();
+// Placeholder for frontend OpenTelemetry config
+console.log("Telemetry initialized (mock)");

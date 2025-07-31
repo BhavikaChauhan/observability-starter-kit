@@ -14,11 +14,6 @@ spec:
     spec:
       containers:
         - name: order-service
-          image: bhavika802/order-service:otel
+          image: bhavika802/order-service
           ports:
-            - containerPort: 3003
-          env:
-            - name: OTEL_EXPORTER_OTLP_ENDPOINT
-              value: "http://otel-collector:4318"
-            - name: OTEL_SERVICE_NAME
-              value: "order-service"
+            - containerPort: 3002

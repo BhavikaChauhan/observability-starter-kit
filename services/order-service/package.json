@@ -1,27 +1,15 @@
 {
   "name": "order-service",
   "version": "1.0.0",
-  "description": "Order service for observability demo project",
-  "main": "index.js",
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
+  "private": true,
   "dependencies": {
-    "@opentelemetry/api": "^1.8.0",
-    "@opentelemetry/sdk-trace-web": "^1.8.0",
-    "@opentelemetry/instrumentation-fetch": "^0.43.0",
-    "@opentelemetry/instrumentation-xml-http-request": "^0.43.0",
-    "@opentelemetry/exporter-trace-otlp-http": "^0.43.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "express": "^4.17.1"
   },
-  "devDependencies": {},
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "scripts": {
+    "start": "node server.js",
+    "build": "react-scripts build"
+  }
 }
 
