@@ -1,23 +1,14 @@
-# Build Stage
 FROM golang:1.21 as builder
 
 WORKDIR /app
 
-# Copy source code
 COPY . .
 
-# Disable CGO for static build (avoids glibc dependency)
+# Force static linking (very important!)
 ENV CGO_ENABLED=0
+RUN go build -ldflags="-linkmode external -extldflags '-static'" -o user-service .
 
-# Build the Go binary
-RUN go build -o user-service .
-
-# Final lightweight image
 FROM gcr.io/distroless/static
-
-# Copy only the binary into the distroless image
 COPY --from=builder /app/user-service /
-
-# Run the binary
 CMD ["/user-service"]
 
