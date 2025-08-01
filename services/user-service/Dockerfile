@@ -1,33 +1,31 @@
-# Stage 1: Build the Go binary
-FROM golang:1.21 AS builder
+# Start from the official Golang image as a builder
+FROM golang:1.22 as builder
 
 WORKDIR /app
 
+# Copy go mod files and download dependencies
 COPY go.mod go.sum ./
 RUN go mod download
 
+# Copy the rest of the code
 COPY . .
 
-# Optional: tidy + verify if needed
-# RUN go mod tidy && go mod verify
+# Build the Go binary statically
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o user-service .
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o user-service .
-
-# Stage 2: Minimal base image with GLIBC 2.34+
-FROM debian:bullseye-slim
-
-# Ensure updated glibc (2.31+) is present
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends ca-certificates libc6 && \
-    rm -rf /var/lib/apt/lists/*
+# Final lightweight image
+FROM alpine:latest
 
 WORKDIR /
 
-COPY --from=builder /app/user-service /user-service
+# Copy the statically linked binary
+COPY --from=builder /app/user-service .
 
+# Expose service port
 EXPOSE 8080
 
-CMD ["/user-service"]
+# Run the binary
+CMD ["./user-service"]
 
 
 
