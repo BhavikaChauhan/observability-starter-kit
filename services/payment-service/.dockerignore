@@ -1,4 +1,0 @@
-target/
-!target/payment-service-1.0.0.jar
-*.iml
-*.log
