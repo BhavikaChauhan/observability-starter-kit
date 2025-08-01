@@ -1,8 +1,5 @@
-# Stage 1: Build a static Go binary
-FROM golang:1.21-alpine AS builder
-
-# Ensure we have git and libc-dev to compile statically
-RUN apk add --no-cache git
+# Stage 1: Build the Go binary
+FROM golang:1.21 AS builder
 
 WORKDIR /app
 
@@ -11,22 +8,26 @@ RUN go mod download
 
 COPY . .
 
-# 👇 Very important: disable cgo to make binary fully static
-ENV CGO_ENABLED=0
+# Optional: tidy + verify if needed
+# RUN go mod tidy && go mod verify
 
-# Build the binary statically
-RUN go build -a -installsuffix cgo -o user-service main.go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o user-service .
 
-# Stage 2: Create a minimal final image
-FROM scratch
+# Stage 2: Minimal base image with GLIBC 2.34+
+FROM debian:bullseye-slim
 
-# Optional: add CA certs if HTTPS needed
-COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+# Ensure updated glibc (2.31+) is present
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends ca-certificates libc6 && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /
 
 COPY --from=builder /app/user-service /user-service
 
-ENTRYPOINT ["/user-service"]
+EXPOSE 8080
 
+CMD ["/user-service"]
 
 
 
