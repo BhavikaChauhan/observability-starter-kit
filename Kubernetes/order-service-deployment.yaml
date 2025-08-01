@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: order-service
+  labels:
+    app: order-service
 spec:
   replicas: 1
   selector:
@@ -14,6 +16,9 @@ spec:
     spec:
       containers:
         - name: order-service
-          image: bhavika802/order-service:otel
+          image: bhavika802/order-service:latest
           ports:
-            - containerPort: 3000
+            - containerPort: 4002
+          env:
+            - name: NODE_ENV
+              value: "production"
