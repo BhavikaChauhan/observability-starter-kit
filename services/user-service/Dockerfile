@@ -1,31 +1,36 @@
-# Start from the official Golang image as a builder
-FROM golang:1.22 as builder
+# 👷‍♂️ Builder stage: Build a statically linked Go binary
+FROM golang:1.22 AS builder
 
 WORKDIR /app
 
-# Copy go mod files and download dependencies
+# Copy Go modules files and download dependencies
 COPY go.mod go.sum ./
 RUN go mod download
 
-# Copy the rest of the code
+# Copy the source code
 COPY . .
 
-# Build the Go binary statically
+# Build a statically-linked binary (no glibc needed)
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o user-service .
 
-# Final lightweight image
+# 🏃‍♀️ Final image: Alpine for small size
 FROM alpine:latest
 
 WORKDIR /
 
-# Copy the statically linked binary
+# Copy the compiled binary from builder
 COPY --from=builder /app/user-service .
 
-# Expose service port
+# Make it executable
+RUN chmod +x ./user-service
+
+# Expose service port (adjust if needed)
 EXPOSE 8080
 
-# Run the binary
+# Start the service
 CMD ["./user-service"]
+
+
 
 
 
