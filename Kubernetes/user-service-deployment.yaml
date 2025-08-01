@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: user-service
-          image: bhavika802/user-service:otel
+          image: bhavika802/user-service:otel-v2
           ports:
             - containerPort: 8080
           env:
