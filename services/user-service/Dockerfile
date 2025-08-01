@@ -11,7 +11,7 @@ RUN go mod download
 COPY . .
 
 # Build a statically-linked binary (no glibc needed)
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o user-service .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o user-service
 
 # 🏃‍♀️ Final image: Alpine for small size
 FROM alpine:latest
