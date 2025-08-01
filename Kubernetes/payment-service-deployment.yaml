@@ -17,7 +17,6 @@ spec:
       containers:
         - name: payment-container
           image: bhavika802/payment-service:otel
-          imagePullPolicy: Always
           ports:
             - containerPort: 8083
           env:
@@ -29,22 +28,24 @@ spec:
               value: "none"
             - name: OTEL_TRACES_EXPORTER
               value: "otlp"
-          resources:
-            limits:
-              memory: "512Mi"
-              cpu: "500m"
-            requests:
-              memory: "256Mi"
-              cpu: "250m"
           readinessProbe:
             httpGet:
               path: /actuator/health
               port: 8083
             initialDelaySeconds: 10
             periodSeconds: 5
+            failureThreshold: 3
           livenessProbe:
             httpGet:
               path: /actuator/health
               port: 8083
             initialDelaySeconds: 15
             periodSeconds: 20
+            failureThreshold: 3
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
