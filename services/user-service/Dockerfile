@@ -1,14 +1,13 @@
+# STEP 1: Build a static binary
 FROM golang:1.21 as builder
 
 WORKDIR /app
-
 COPY . .
 
-# Force static linking (very important!)
 ENV CGO_ENABLED=0
-RUN go build -ldflags="-linkmode external -extldflags '-static'" -o user-service .
+RUN go build -tags netgo -ldflags '-w -extldflags "-static"' -o user-service .
 
+# STEP 2: Minimal image
 FROM gcr.io/distroless/static
 COPY --from=builder /app/user-service /
 CMD ["/user-service"]
-
