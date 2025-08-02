@@ -1,3 +1,4 @@
+# Raw OpenTelemetry Collector configuration (do not apply this file directly)
 receivers:
   otlp:
     protocols:
