@@ -18,7 +18,7 @@ spec:
         - name: payment-container
           image: bhavika802/payment-service:otel
           ports:
-            - containerPort: 8083
+            - containerPort: 8080
           env:
             - name: OTEL_SERVICE_NAME
               value: "payment-service"
@@ -31,14 +31,14 @@ spec:
           readinessProbe:
             httpGet:
               path: /actuator/health
-              port: 8083
+              port: 8080
             initialDelaySeconds: 10
             periodSeconds: 5
             failureThreshold: 3
           livenessProbe:
             httpGet:
               path: /actuator/health
-              port: 8083
+              port: 8080
             initialDelaySeconds: 15
             periodSeconds: 20
             failureThreshold: 3
